@@ -23,16 +23,16 @@ public class Estudante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotBlank
+	@NotBlank(message = "Nome is required.")
 	private String nome;
 	
-	@Past
-	@NotNull
+	@Past(message = "Data de Nascimento must to be in the past")
+	@NotNull(message = "Data de Nascimento is required.")
 	private LocalDate dataNascimento;
 	
 	private String telefone;
 	
-	@CPF
+	@CPF(message = "CPF invalid.")
 	private String cpf;
 
 	public Estudante(String nome, LocalDate dataNascimento, String telefone, String cpf) {

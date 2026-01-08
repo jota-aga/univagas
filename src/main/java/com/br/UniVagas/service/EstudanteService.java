@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.br.UniVagas.entity.Candidatura;
 import com.br.UniVagas.entity.Estudante;
+import com.br.UniVagas.exception.CPFAlreadyExistsException;
 import com.br.UniVagas.repository.CandidaturaRepository;
 import com.br.UniVagas.repository.EstudanteRepository;
 
@@ -30,10 +31,10 @@ public class EstudanteService {
 		
 		if(estudanteRepetido.isPresent()) {
 			if(estudante.getId() == null) {
-				return;
+				throw new CPFAlreadyExistsException();
 			}
 			else if(estudante.getId() != estudanteRepetido.get().getId()) {
-				return;
+				throw new CPFAlreadyExistsException();
 			}
 		}
 		

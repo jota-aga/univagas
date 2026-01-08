@@ -24,10 +24,11 @@ public class Empresa implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotEmpty
+	@NotEmpty(message = "Razao Social is obrigatory.")
 	private String razaoSocial;
 	
-	@CNPJ
+	@CNPJ(message = "CNPJ invalid.")
+	@NotEmpty(message = "CNPJ is obrigatory.")
 	private String cnpj;
 	
 	private String descricao;
