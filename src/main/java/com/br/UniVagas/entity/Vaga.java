@@ -60,13 +60,13 @@ public class Vaga {
 	private StatusDaVaga status;
 	
 	@ManyToOne
-	private Empresa Empresa;
+	private Empresa empresa;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Candidatura> candidaturas;
 
-	public Vaga(String titulo, String descricao, TipoDeVaga tipoDeVaga,LocalDate dataPublicacao, LocalDate dataLimite, 
-			BigDecimal bolsaSalario, int cargaHoraria,String localizacao, StatusDaVaga status, Empresa empresa,List<Candidatura> candidaturas) {
+	public Vaga(String titulo, String descricao, TipoDeVaga tipoDeVaga,LocalDate dataPublicacao, LocalDate dataLimite, BigDecimal bolsaSalario, 
+				int cargaHoraria,String localizacao, StatusDaVaga status, Empresa empresa,List<Candidatura> candidaturas) {
 		super();
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -77,7 +77,7 @@ public class Vaga {
 		this.cargaHoraria = cargaHoraria;
 		this.localizacao = localizacao;
 		this.status = status;
-		Empresa = empresa;
+		this.empresa = empresa;
 		this.candidaturas = candidaturas;
 	}
 
@@ -166,11 +166,11 @@ public class Vaga {
 	}
 
 	public Empresa getEmpresa() {
-		return Empresa;
+		return empresa;
 	}
 
 	public void setEmpresa(Empresa empresa) {
-		Empresa = empresa;
+		empresa = empresa;
 	}
 
 	public List<Candidatura> getCandidaturas() {

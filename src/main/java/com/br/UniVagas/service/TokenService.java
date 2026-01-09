@@ -74,7 +74,7 @@ public class TokenService {
 	public void verifyEstudanteByToken(Estudante estudante, JwtAuthenticationToken token) {
 		Estudante estudanteToken = findEstudanteByToken(token);
 		
-		if(estudanteToken.equals(estudante)) {
+		if(!estudanteToken.equals(estudante)) {
 			throw new RuntimeException("This Candidatura isnt yours!");
 		}
 	}
@@ -82,7 +82,7 @@ public class TokenService {
 	public void verifyEmpresaByToken(Empresa empresa, JwtAuthenticationToken token) {
 		Empresa empresaToken = findEmpresaByToken(token);
 		
-		if(empresaToken.equals(empresa)) {
+		if(!empresaToken.equals(empresa)) {
 			throw new RuntimeException("This Candidatura isnt yours!");
 		}
 	}

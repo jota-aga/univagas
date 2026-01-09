@@ -15,4 +15,6 @@ public interface VagaRepository extends JpaRepository<Vaga, Integer>{
 		       OR LOWER(v.descricao) LIKE LOWER(CONCAT('%', :termo, '%'))
 		""")
 	List<Vaga> findAllByTituloOrDescricao(String termo);
+	
+	List<Vaga> findAllByEmpresaId(Integer empresaId);
 }

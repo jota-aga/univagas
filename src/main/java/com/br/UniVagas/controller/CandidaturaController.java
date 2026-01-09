@@ -44,7 +44,7 @@ public class CandidaturaController {
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA)")
+	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
 	public ResponseEntity<?> updateCandidatura(@PathVariable Integer id, @RequestBody CandidaturaDTO candidaturaDTO, JwtAuthenticationToken token) throws Exception{
 		candidaturaService.update(id, candidaturaDTO, token);
 		

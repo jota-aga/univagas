@@ -16,8 +16,6 @@ import com.br.UniVagas.enums.StatusDaCandidatura;
 import com.br.UniVagas.exception.IdNotFoundException;
 import com.br.UniVagas.mappers.CandidaturaMapper;
 import com.br.UniVagas.repository.CandidaturaRepository;
-import com.br.UniVagas.repository.EmpresaRepository;
-import com.br.UniVagas.repository.EstudanteRepository;
 import com.br.UniVagas.repository.VagaRepository;
 
 @Service
@@ -28,12 +26,6 @@ public class CandidaturaService {
 	
 	@Autowired
 	private VagaRepository vagaRepository;
-	
-	@Autowired
-	private EstudanteRepository estudanteRepository;
-	
-	@Autowired
-	private EmpresaRepository empresaRepository;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -61,7 +53,7 @@ public class CandidaturaService {
 	public void update(Integer id, CandidaturaDTO candidaturaDTO, JwtAuthenticationToken token) {
 		Candidatura candidatura = findById(id);
 		
-		tokenService.verifyEstudanteByToken(candidatura.getEstudante(), token);
+		tokenService.verifyEmpresaByToken(candidatura.getVaga().getEmpresa(), token);
 		
 		candidatura = CandidaturaMapper.update(candidatura,candidaturaDTO);
 		
@@ -77,7 +69,7 @@ public class CandidaturaService {
 	public void delete(Integer id, JwtAuthenticationToken token) {
 		Candidatura candidatura = findById(id);
 		
-		tokenService.verifyEstudanteByToken(candidatura.getEstudante(), token);	
+		tokenService.verifyEmpresaByToken(candidatura.getVaga().getEmpresa(), token);
 		
 		candidaturaRepository.delete(candidatura);
 	}

@@ -67,6 +67,14 @@ public class VagaService {
 		return vagas;
 	}
 	
+	public List<Vaga> findAllByEmpresa(JwtAuthenticationToken token) {
+		Empresa empresa = tokenService.findEmpresaByToken(token);
+		
+		List<Vaga> vagas = vagaRepository.findAllByEmpresaId(empresa.getId());
+		
+		return vagas;
+	}
+	
 	private Vaga findById(Integer id){
 		Optional<Vaga> optionalVaga = vagaRepository.findById(id);
 		
@@ -74,4 +82,6 @@ public class VagaService {
 		
 		return vaga;
 	}
+
+	
 }

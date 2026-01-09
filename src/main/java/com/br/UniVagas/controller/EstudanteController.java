@@ -42,7 +42,7 @@ public class EstudanteController {
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE' or hasAuthority('SCOPE_ADMIN')")
+	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> updateEstudante(@PathVariable Integer id, @Valid @RequestBody EstudanteDTO estudanteDTO){		
 		estudanteService.update(id, estudanteDTO);
 		
@@ -50,7 +50,7 @@ public class EstudanteController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE' or hasAuthority('SCOPE_ADMIN')")
+	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> deleteEstudante(@PathVariable Integer id){		
 		estudanteService.delete(id);
 		
