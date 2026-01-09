@@ -10,6 +10,7 @@ public class EstudanteMapper {
 		estudante.setDataNascimento(dto.dataNascimento());
 		estudante.setNome(dto.nome());
 		estudante.setTelefone(dto.telefone());
+		estudante.setDescricao(dto.descricao());
 		
 		return estudante;
 	}
@@ -19,6 +20,7 @@ public class EstudanteMapper {
 		estudante.setDataNascimento(dto.dataNascimento());
 		estudante.setNome(dto.nome());
 		estudante.setTelefone(dto.telefone());
+		estudante.setDescricao(dto.descricao());
 		
 		return estudante;
 	}

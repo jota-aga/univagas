@@ -4,10 +4,12 @@ import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -32,8 +34,13 @@ public class Estudante {
 	
 	private String telefone;
 	
+	private String descricao;
+	
 	@CPF(message = "CPF invalid.")
 	private String cpf;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Usuario usuario;
 
 	public Estudante(String nome, LocalDate dataNascimento, String telefone, String cpf) {
 		super();
@@ -85,5 +92,21 @@ public class Estudante {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

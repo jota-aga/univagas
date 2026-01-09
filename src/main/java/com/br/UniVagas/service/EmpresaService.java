@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.DefaultRowSorter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.br.UniVagas.dto.EmpresaDTO;
 import com.br.UniVagas.entity.Empresa;
-import com.br.UniVagas.exception.CNPJAlreadyExistsException;
+import com.br.UniVagas.entity.Role;
+import com.br.UniVagas.entity.Usuario;
+import com.br.UniVagas.exception.AlreadyExistsException;
 import com.br.UniVagas.exception.IdNotFoundException;
-import com.br.UniVagas.exception.RazaoSocialAlreadyExistsException;
 import com.br.UniVagas.mappers.EmpresaMapper;
-import com.br.UniVagas.repository.CandidaturaRepository;
 import com.br.UniVagas.repository.EmpresaRepository;
+import com.br.UniVagas.repository.UserRepository;
 
 @Service
 public class EmpresaService {
@@ -26,7 +25,10 @@ public class EmpresaService {
 	private EmpresaRepository empresaRepository;
 	
 	@Autowired
-	private CandidaturaRepository candidaturaRepository;
+	private UserRepository usuarioRepository;;
+	
+	@Autowired
+	private UserService usuarioService;
 	
 	public List<Empresa> findAll(){
 		return empresaRepository.findAll();
@@ -40,42 +42,49 @@ public class EmpresaService {
 		
 		if(empresaRepetidaPelaRazaoSocial.isPresent()) {
 			if(empresa.getId() == null) {
-				throw new RazaoSocialAlreadyExistsException();
+				throw new AlreadyExistsException("Razão Social");
 			}
 			else if(empresa.getId() != empresaRepetidaPelaRazaoSocial.get().getId()) {
-				throw new RazaoSocialAlreadyExistsException();
+				throw new AlreadyExistsException("Razão Social");
 			}
 		}
 		
 		if(empresaRepetidaPeloCnpj.isPresent()) {
 			if(empresa.getId() == null) {
-				throw new CNPJAlreadyExistsException();
+				throw new AlreadyExistsException("CNPJ");
 			}
 			else if(empresa.getId() != empresaRepetidaPeloCnpj.get().getId()) {
-				throw new CNPJAlreadyExistsException();
+				throw new AlreadyExistsException("CNPJ");
 			}
 		}
 		
 		empresaRepository.save(empresa);
 	}
 	
-	@Transactional
-	public void delete(Integer id) throws Exception {
-		Optional<Empresa> optionalEmpresa = empresaRepository.findById(id);
-		
-		Empresa empresa = optionalEmpresa.orElseThrow(() -> new IdNotFoundException());
-		
-		empresaRepository.delete(empresa);
-	}
-	
 	public void update(Integer id, EmpresaDTO dto) {
-		Optional<Empresa> optionalEmpresa = empresaRepository.findById(id);
 		
-		Empresa empresa = optionalEmpresa.orElseThrow(() -> new IdNotFoundException());
+		Empresa empresa = findById(id);
 		
 		empresa = EmpresaMapper.update(empresa, dto);
 		
 		save(empresa);
+	}
+	
+	public void create(EmpresaDTO dto) {
+		Empresa empresa = EmpresaMapper.toEntity(dto);
+		
+		Usuario usuario = usuarioService.create(dto.email(), dto.senha(), Role.Value.EMPRESA.name());
+		
+		empresa.setUsuario(usuario);
+		
+		save(empresa);
+	}
+	
+	@Transactional
+	public void delete(Integer id) throws Exception {
+		Empresa empresa = findById(id);
+		
+		empresaRepository.delete(empresa);
 	}
 
 	public List<Empresa> findAllByRazaoSocial(String razaoSocial) {
@@ -86,5 +95,9 @@ public class EmpresaService {
 		return empresas;
 	}
 	
-	
+	public Empresa findById(Integer id) {
+		Optional<Empresa> optionalEmpresa = empresaRepository.findById(id);
+		
+		return optionalEmpresa.orElseThrow(() -> new IdNotFoundException());
+	}
 }

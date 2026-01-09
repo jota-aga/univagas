@@ -1,16 +1,17 @@
 package com.br.UniVagas.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Empresa implements Serializable{
+public class Empresa{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,9 @@ public class Empresa implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Vaga> vagas;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Usuario usuario;
 
 	public Empresa(String razaoSocial, String cnpj, String descricao, String localizacao) {
 		super();
@@ -96,5 +100,13 @@ public class Empresa implements Serializable{
 
 	public void setVagas(List<Vaga> vagas) {
 		this.vagas = vagas;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

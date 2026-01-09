@@ -1,14 +1,20 @@
 package com.br.UniVagas.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.br.UniVagas.dto.EstudanteDTO;
 import com.br.UniVagas.entity.Candidatura;
 import com.br.UniVagas.entity.Estudante;
-import com.br.UniVagas.exception.CPFAlreadyExistsException;
+import com.br.UniVagas.entity.Role;
+import com.br.UniVagas.entity.Usuario;
+import com.br.UniVagas.exception.AlreadyExistsException;
+import com.br.UniVagas.exception.IdNotFoundException;
+import com.br.UniVagas.mappers.EstudanteMapper;
 import com.br.UniVagas.repository.CandidaturaRepository;
 import com.br.UniVagas.repository.EstudanteRepository;
 
@@ -20,28 +26,49 @@ public class EstudanteService {
 	@Autowired
 	private CandidaturaRepository candidaturaRepository;
 	
+	@Autowired
+	private UserService usuarioService;
+	
 	public List<Estudante> findAll() {
 		List<Estudante> estudantes = estudanteRepository.findAll();
 		
 		return estudantes;
 	}
 	
-	public void salvar(Estudante estudante) {
-		Optional<Estudante> estudanteRepetido = estudanteRepository.findByCpf(estudante.getCpf());
+	public void save(Estudante estudante) {
+		Optional<Estudante> estudanteRepetidoPeloCPF = estudanteRepository.findByCpf(estudante.getCpf());
 		
-		if(estudanteRepetido.isPresent()) {
+		if(estudanteRepetidoPeloCPF.isPresent()) {
 			if(estudante.getId() == null) {
-				throw new CPFAlreadyExistsException();
+				throw new AlreadyExistsException("CPF");
 			}
-			else if(estudante.getId() != estudanteRepetido.get().getId()) {
-				throw new CPFAlreadyExistsException();
+			else if(estudante.getId() != estudanteRepetidoPeloCPF.get().getId()) {
+				throw new AlreadyExistsException("CPF");
 			}
 		}
 		
 		estudanteRepository.save(estudante);
 	}
 	
-	public void excluir(Estudante estudante) {
+	public void create(EstudanteDTO estudanteDTO) {
+		Estudante estudante = EstudanteMapper.toEntity(estudanteDTO);
+		
+		Usuario usuario = usuarioService.create(estudanteDTO.email(), estudanteDTO.senha(), Role.Value.ESTUDANTE.name());
+		
+		estudante.setUsuario(usuario);
+		
+		save(estudante);
+	}
+	
+	public Estudante findById(Integer id) {
+		Optional<Estudante> optionalEstudante = estudanteRepository.findById(id);
+		
+		return optionalEstudante.orElseThrow(() -> new IdNotFoundException());
+	}
+	
+	public void delete(Integer id) {
+		Estudante estudante = findById(id);
+		
 		List<Candidatura> candidaturas = candidaturaRepository.findAllByEstudanteId(estudante.getId());
 		
 		if(candidaturas != null && !candidaturas.isEmpty()) {
@@ -51,5 +78,21 @@ public class EstudanteService {
 		candidaturaRepository.saveAll(candidaturas);
 		
 		estudanteRepository.delete(estudante);
+	}
+	
+	public void update(Integer id, EstudanteDTO dto) {
+		Estudante estudante = findById(id);
+		
+		estudante = EstudanteMapper.atualizar(estudante, dto);
+		
+		save(estudante);
+	}
+	
+	public List<Estudante> findByDescricao(String descricao){
+		List<Estudante> estudantes = new ArrayList<>();
+		
+		estudantes = estudanteRepository.findAllByDescricaoContainingIgnoreCase(descricao);
+		
+		return estudantes;
 	}
 }

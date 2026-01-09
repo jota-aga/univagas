@@ -13,4 +13,6 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Integer>{
 	Optional<Empresa> findByRazaoSocialIgnoreCase(String razaoSocial);
 	
 	Optional<Empresa> findByCnpj(String cnpj);
+	
+	Optional<Empresa> findByUsuarioId(Integer usuarioId);
 }

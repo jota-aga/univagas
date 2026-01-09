@@ -1,0 +1,68 @@
+package com.br.UniVagas.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
+@Entity
+public class Usuario {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	@Email(message = "Email is invalid.")
+	@NotEmpty(message = "Email is required.")
+	private String email;
+	
+	private String senha;
+	
+	@ManyToOne
+	private Role role;
+
+	public Usuario(String email, String senha, Role role) {
+		super();
+		this.email = email;
+		this.senha = senha;
+		this.role = role;
+	}
+
+	public Usuario() {
+		super();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+}

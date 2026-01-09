@@ -8,18 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(RazaoSocialAlreadyExistsException.class)
-	public ResponseEntity<String> handlerRazaoSocialAlreadyExists(RazaoSocialAlreadyExistsException e){
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-	}
-	
-	@ExceptionHandler(CNPJAlreadyExistsException.class)
-	public ResponseEntity<String> handlerCNPJAlreadyExistsException(CNPJAlreadyExistsException e){
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-	}
-	
-	@ExceptionHandler(CPFAlreadyExistsException.class)
-	public ResponseEntity<String> handlerCPFAlreadyExistsException(CPFAlreadyExistsException e){
+	@ExceptionHandler(AlreadyExistsException.class)
+	public ResponseEntity<String> handlerRazaoSocialAlreadyExists(AlreadyExistsException e){
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 	}
 	

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.UniVagas.dto.EmpresaDTO;
 import com.br.UniVagas.entity.Empresa;
-import com.br.UniVagas.mappers.EmpresaMapper;
 import com.br.UniVagas.service.EmpresaService;
 
 import jakarta.validation.Valid;
@@ -31,20 +30,20 @@ public class EmpresaController {
 	EmpresaService empresaService;
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
 	public List<Empresa> findAllEmpresas(){
 		return empresaService.findAll();
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> saveEmpresa(@Valid @RequestBody EmpresaDTO empresaRequest) {
-		Empresa empresa = EmpresaMapper.toEntity(empresaRequest);
-		
-		empresaService.save(empresa);
+	public ResponseEntity<?> createEmpresa(@Valid @RequestBody EmpresaDTO empresaDTO) {		
+		empresaService.create(empresaDTO);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> updateEmpresa(@PathVariable Integer id, @Valid @RequestBody EmpresaDTO empresaRequest){
 		empresaService.update(id, empresaRequest);
 		
@@ -52,6 +51,7 @@ public class EmpresaController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('SCOPE_EMPRESA') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> deleteEmpresa(@PathVariable Integer id) throws Exception{
 		empresaService.delete(id);
 		

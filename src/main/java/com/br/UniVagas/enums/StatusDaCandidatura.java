@@ -2,7 +2,6 @@ package com.br.UniVagas.enums;
 
 public enum StatusDaCandidatura {
 	ENVIADA("Enviada"),
-	MARCADA("Marcada"),
 	EM_ANALISE("Em análise"),
 	FINALIZADA("Finalizada");
 	
