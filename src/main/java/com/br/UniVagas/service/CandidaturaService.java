@@ -47,7 +47,7 @@ public class CandidaturaService {
 		
 		Vaga vaga = vagaRepository.findById(candidaturaDTO.vagaId()).orElseThrow(() -> new IdNotFoundException());
 		
-		Estudante estudante = tokenService.findEstudanteByUsuarioId(token);
+		Estudante estudante = tokenService.findEstudanteByToken(token);
 		
 		candidatura.setVaga(vaga);
 		candidatura.setEstudante(estudante);

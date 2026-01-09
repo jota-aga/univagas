@@ -12,12 +12,12 @@ import com.br.UniVagas.entity.Usuario;
 import com.br.UniVagas.exception.AlreadyExistsException;
 import com.br.UniVagas.exception.EmailOrPasswordIncorrectException;
 import com.br.UniVagas.repository.RoleRepository;
-import com.br.UniVagas.repository.UserRepository;
+import com.br.UniVagas.repository.UsuarioRepository;
 
 @Service
-public class UserService {
+public class UsuarioService {
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository userRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -29,11 +29,7 @@ public class UserService {
 	private TokenService tokenService;
 	
 	public Usuario create(String email, String senha, String roleName) {
-		Optional<Usuario> optionalUsuario = userRepository.findByEmail(email);
-		
-		if(optionalUsuario.isPresent()) {
-			throw new AlreadyExistsException("Email");
-		}
+		verifyRepeatedEmail(email);
 		
 		Usuario usuario = new Usuario();
 		usuario.setEmail(email);
@@ -56,5 +52,13 @@ public class UserService {
 		}
 		
 		return tokenService.generateToken(optionalUsuario.get());
+	}
+	
+	private void verifyRepeatedEmail(String email) {
+		Optional<Usuario> optionalUsuario = userRepository.findByEmail(email);
+		
+		if(optionalUsuario.isPresent()) {
+			throw new AlreadyExistsException("Email");
+		}
 	}
 }

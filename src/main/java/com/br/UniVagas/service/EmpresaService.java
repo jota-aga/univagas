@@ -16,7 +16,6 @@ import com.br.UniVagas.exception.AlreadyExistsException;
 import com.br.UniVagas.exception.IdNotFoundException;
 import com.br.UniVagas.mappers.EmpresaMapper;
 import com.br.UniVagas.repository.EmpresaRepository;
-import com.br.UniVagas.repository.UserRepository;
 
 @Service
 public class EmpresaService {
@@ -25,10 +24,7 @@ public class EmpresaService {
 	private EmpresaRepository empresaRepository;
 	
 	@Autowired
-	private UserRepository usuarioRepository;;
-	
-	@Autowired
-	private UserService usuarioService;
+	private UsuarioService usuarioService;
 	
 	public List<Empresa> findAll(){
 		return empresaRepository.findAll();

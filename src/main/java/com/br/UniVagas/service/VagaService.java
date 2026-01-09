@@ -9,12 +9,9 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import com.br.UniVagas.dto.VagaDTO;
-import com.br.UniVagas.entity.Candidatura;
 import com.br.UniVagas.entity.Empresa;
 import com.br.UniVagas.entity.Vaga;
-import com.br.UniVagas.exception.IdNotFoundException;
 import com.br.UniVagas.mappers.VagaMapper;
-import com.br.UniVagas.repository.EmpresaRepository;
 import com.br.UniVagas.repository.VagaRepository;
 
 @Service

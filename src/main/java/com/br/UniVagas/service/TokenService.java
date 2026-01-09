@@ -51,7 +51,7 @@ public class TokenService {
 		return LocalDateTime.now().plusHours(2L).toInstant(ZoneOffset.of("-03:00"));
 	}
 	
-	public Estudante findEstudanteByUsuarioId(JwtAuthenticationToken token) {
+	public Estudante findEstudanteByToken(JwtAuthenticationToken token) {
 		Integer usuarioId = Integer.valueOf(token.getToken().getSubject());
 		
 		Optional<Estudante> optionalEstudante = estudanteRepository.findByUsuarioId(usuarioId);
@@ -72,7 +72,7 @@ public class TokenService {
 	}
 	
 	public void verifyEstudanteByToken(Estudante estudante, JwtAuthenticationToken token) {
-		Estudante estudanteToken = findEstudanteByUsuarioId(token);
+		Estudante estudanteToken = findEstudanteByToken(token);
 		
 		if(estudanteToken.equals(estudante)) {
 			throw new RuntimeException("This Candidatura isnt yours!");

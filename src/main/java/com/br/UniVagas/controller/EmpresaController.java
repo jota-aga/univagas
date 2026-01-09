@@ -43,7 +43,7 @@ public class EmpresaController {
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
+	@PreAuthorize("hasAuthority('SCOPE_EMPRESA') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> updateEmpresa(@PathVariable Integer id, @Valid @RequestBody EmpresaDTO empresaRequest){
 		empresaService.update(id, empresaRequest);
 		

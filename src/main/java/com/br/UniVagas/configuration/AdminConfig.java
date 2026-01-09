@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import com.br.UniVagas.entity.Role;
 import com.br.UniVagas.entity.Usuario;
 import com.br.UniVagas.repository.RoleRepository;
-import com.br.UniVagas.repository.UserRepository;
+import com.br.UniVagas.repository.UsuarioRepository;
 
 @Configuration
 public class AdminConfig implements CommandLineRunner{
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository userRepository;
 	
 	@Autowired
 	private RoleRepository roleRepository;

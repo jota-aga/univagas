@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.UniVagas.dto.LoginDTO;
-import com.br.UniVagas.service.UserService;
+import com.br.UniVagas.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 	
 	@Autowired
-	private UserService userService;
+	private UsuarioService userService;
 	
 	@GetMapping("/sign-in")
 	public ResponseEntity<?> signIn(@RequestBody LoginDTO loginDTO){

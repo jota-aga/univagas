@@ -27,7 +27,7 @@ public class EstudanteService {
 	private CandidaturaRepository candidaturaRepository;
 	
 	@Autowired
-	private UserService usuarioService;
+	private UsuarioService usuarioService;
 	
 	public List<Estudante> findAll() {
 		List<Estudante> estudantes = estudanteRepository.findAll();
@@ -75,6 +75,8 @@ public class EstudanteService {
 			candidaturas.forEach(candidatura -> candidatura.setEstudante(null));
 		}
 		
+		//verificar se quem vai deletar é o estudante
+		
 		candidaturaRepository.saveAll(candidaturas);
 		
 		estudanteRepository.delete(estudante);
@@ -82,6 +84,8 @@ public class EstudanteService {
 	
 	public void update(Integer id, EstudanteDTO dto) {
 		Estudante estudante = findById(id);
+		
+		//verificar se quem vai editar é o estudante
 		
 		estudante = EstudanteMapper.atualizar(estudante, dto);
 		
