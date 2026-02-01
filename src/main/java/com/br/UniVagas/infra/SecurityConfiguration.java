@@ -43,7 +43,7 @@ public class SecurityConfiguration {
 															.requestMatchers(HttpMethod.GET, "/auth/sign-in").permitAll()
 															.requestMatchers(HttpMethod.POST, "/empresa").permitAll()
 															.requestMatchers(HttpMethod.POST, "/estudante").permitAll()
-															.anyRequest().authenticated()
+															.anyRequest().permitAll()
 															)
 				.csrf(csrf -> csrf.disable())
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
