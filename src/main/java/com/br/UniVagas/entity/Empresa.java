@@ -12,12 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Empresa{
 	
 	@Id
@@ -40,72 +44,4 @@ public class Empresa{
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
-
-	public Empresa(String razaoSocial, String cnpj, String descricao, String localizacao) {
-		super();
-		this.razaoSocial = razaoSocial;
-		this.cnpj = cnpj;
-		this.descricao = descricao;
-		this.localizacao = localizacao;
-	}
-
-	public Empresa() {
-		super();
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getRazaoSocial() {
-		return razaoSocial;
-	}
-
-	public void setRazaoSocial(String razaoSocial) {
-		this.razaoSocial = razaoSocial;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getLocalizacao() {
-		return localizacao;
-	}
-
-	public void setLocalizacao(String localizacao) {
-		this.localizacao = localizacao;
-	}
-
-	public List<Vaga> getVagas() {
-		return vagas;
-	}
-
-	public void setVagas(List<Vaga> vagas) {
-		this.vagas = vagas;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 }

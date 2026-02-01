@@ -11,11 +11,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Candidatura {
 	
 	@Id
@@ -36,57 +43,4 @@ public class Candidatura {
 	@ManyToOne
 	@NotNull(message = "Vaga is required.")
 	private Vaga vaga;
-
-	public Candidatura(@FutureOrPresent LocalDate dataAplicacao, StatusDaCandidatura statusDaCandidatura,
-			Estudante estudante, Vaga vaga) {
-		super();
-		this.dataAplicacao = dataAplicacao;
-		this.statusDaCandidatura = statusDaCandidatura;
-		this.estudante = estudante;
-		this.vaga = vaga;
-	}
-
-	public Candidatura() {
-		super();
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public LocalDate getDataAplicacao() {
-		return dataAplicacao;
-	}
-
-	public void setDataAplicacao(LocalDate dataAplicacao) {
-		this.dataAplicacao = dataAplicacao;
-	}
-
-	public StatusDaCandidatura getStatusDaCandidatura() {
-		return statusDaCandidatura;
-	}
-
-	public void setStatusDaCandidatura(StatusDaCandidatura statusDaCandidatura) {
-		this.statusDaCandidatura = statusDaCandidatura;
-	}
-
-	public Estudante getEstudante() {
-		return estudante;
-	}
-
-	public void setEstudante(Estudante estudante) {
-		this.estudante = estudante;
-	}
-
-	public Vaga getVaga() {
-		return vaga;
-	}
-
-	public void setVaga(Vaga vaga) {
-		this.vaga = vaga;
-	}
 }

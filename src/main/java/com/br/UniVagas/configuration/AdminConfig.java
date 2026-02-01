@@ -26,7 +26,7 @@ public class AdminConfig implements CommandLineRunner{
 		optionalUsuario.ifPresentOrElse(u -> System.out.println("Usuário Admin Já existe no banco."), 
 										() -> {
 											Role role = roleRepository.findByNome(Role.Value.ADMIN.name()).get();
-											Usuario usuario = new Usuario("admin@email.com", "123456789", role);
+											Usuario usuario = new Usuario( "admin@email.com", "123456789", role);
 											
 											userRepository.save(usuario);
 										});
