@@ -11,10 +11,12 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Digits;
@@ -70,6 +72,7 @@ public class Vaga {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Candidatura> candidaturas;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Requer> requer;
+	@ManyToMany
+	@JoinTable(name = "requer", joinColumns = @JoinColumn (name="id_vaga"), inverseJoinColumns = @JoinColumn(name="id_habilidade"))
+	private List<Habilidade> habilidadeRequeridas;
 }
