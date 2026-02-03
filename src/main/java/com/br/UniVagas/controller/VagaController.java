@@ -44,15 +44,6 @@ public class VagaController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
-	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> deleteVaga(@PathVariable Integer id, JwtAuthenticationToken token){
-		
-		vagaService.delete(id, token);
-		
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-	
 	@GetMapping
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> findAllVaga(){

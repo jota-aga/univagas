@@ -2,7 +2,8 @@ package com.br.UniVagas.enums;
 
 public enum StatusDaVaga {
 	ABERTA("Aberta"),
-	FECHADA("Fechada");
+	FECHADA("Fechada"),
+	CANCELADA("Cancelada");
 	
 	private String status;
 
