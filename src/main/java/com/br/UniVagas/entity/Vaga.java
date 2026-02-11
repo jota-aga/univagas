@@ -70,9 +70,9 @@ public class Vaga {
 	private Company company;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Candidatura> candidaturas;
+	private List<Application> applications;
 	
 	@ManyToMany
-	@JoinTable(name = "requer", joinColumns = @JoinColumn (name="id_vaga"), inverseJoinColumns = @JoinColumn(name="id_habilidade"))
-	private List<Habilidade> habilidadeRequeridas;
+	@JoinTable(name = "requer", joinColumns = @JoinColumn (name="id_vaga"), inverseJoinColumns = @JoinColumn(name="id_competence"))
+	private List<Competence> competenceRequeridas;
 }

@@ -75,7 +75,7 @@ public class TokenService {
 		Candidate candidateToken = findCandidateByToken(token);
 		
 		if(!candidateToken.equals(candidate)) {
-			throw new RuntimeException("This Candidatura isnt yours!");
+			throw new RuntimeException("This Application isnt yours!");
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class TokenService {
 		Company companyToken = findCompanyByToken(token);
 		
 		if(!companyToken.equals(company)) {
-			throw new RuntimeException("This Candidatura isnt yours!");
+			throw new RuntimeException("This Application isnt yours!");
 		}
 	}
 }

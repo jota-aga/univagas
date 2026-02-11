@@ -13,37 +13,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.UniVagas.dto.HabilidadeDTO;
-import com.br.UniVagas.entity.Habilidade;
-import com.br.UniVagas.mappers.HabilidadeMapper;
-import com.br.UniVagas.service.HabilidadeService;
+import com.br.UniVagas.dto.CompetenceDTO;
+import com.br.UniVagas.entity.Competence;
+import com.br.UniVagas.mappers.CompetenceMapper;
+import com.br.UniVagas.service.CompetenceService;
 
 @RestController
-@RequestMapping("/habilidade")
-public class HabilidadeController {
+@RequestMapping("/competence")
+public class CompetenceController {
 	@Autowired
-	private HabilidadeService habilidadeService;
+	private CompetenceService competenceService;
 	
 	@GetMapping
 	public ResponseEntity<?> findAll() {
-		List<Habilidade> habilidades = habilidadeService.findAllHabilidade();
+		List<Competence> competences = competenceService.findAllCompetence();
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(habilidades);
+		return ResponseEntity.status(HttpStatus.CREATED).body(competences);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createHabilidade(@RequestBody HabilidadeDTO habilidadeDTO) {
-		Habilidade habilidade = HabilidadeMapper.toEntity(habilidadeDTO);
+	public ResponseEntity<?> createCompetence(@RequestBody CompetenceDTO competenceDTO) {
+		Competence competence = CompetenceMapper.toEntity(competenceDTO);
 		
-		habilidadeService.saveHabilidade(habilidade);
+		competenceService.saveCompetence(competence);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateHabilidade(@PathVariable Integer id, @RequestBody HabilidadeDTO habilidadeDTO) {
+	public ResponseEntity<?> updateCompetence(@PathVariable Integer id, @RequestBody CompetenceDTO competenceDTO) {
 		
-		habilidadeService.update(id, habilidadeDTO);
+		competenceService.update(id, competenceDTO);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}

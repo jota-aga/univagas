@@ -1,13 +1,13 @@
 package com.br.UniVagas.enums;
 
-public enum StatusDaCandidatura {
+public enum ApplicationStatus {
 	ENVIADA("Enviada"),
 	EM_ANALISE("Em análise"),
 	FINALIZADA("Finalizada");
 	
 	private String status;
 	
-	private StatusDaCandidatura(String status) {
+	private ApplicationStatus(String status) {
 		this.status = status;
 	}
 	

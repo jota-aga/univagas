@@ -2,7 +2,7 @@ package com.br.UniVagas.entity;
 
 import java.time.LocalDate;
 
-import com.br.UniVagas.enums.StatusDaCandidatura;
+import com.br.UniVagas.enums.ApplicationStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Candidatura {
+public class Application {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +33,8 @@ public class Candidatura {
 	private LocalDate dataAplicacao;
 	
 	@Enumerated(value = EnumType.STRING)
-	@NotNull(message = "Status da Candidatura is required.")
-	private StatusDaCandidatura statusDaCandidatura;
+	@NotNull(message = "Status da Application is required.")
+	private ApplicationStatus status;
 	
 	@ManyToOne
 	@NotNull(message = "Candidate is required.")

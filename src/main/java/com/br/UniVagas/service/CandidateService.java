@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.br.UniVagas.dto.CandidateDTO;
-import com.br.UniVagas.entity.Candidatura;
+import com.br.UniVagas.entity.Application;
 import com.br.UniVagas.entity.Candidate;
 import com.br.UniVagas.entity.Role;
 import com.br.UniVagas.entity.Usuario;
 import com.br.UniVagas.exception.AlreadyExistsException;
 import com.br.UniVagas.exception.IdNotFoundException;
 import com.br.UniVagas.mappers.CandidateMapper;
-import com.br.UniVagas.repository.CandidaturaRepository;
+import com.br.UniVagas.repository.ApplicationRepository;
 import com.br.UniVagas.repository.CandidateRepository;
 
 @Service
@@ -24,7 +24,7 @@ public class CandidateService {
 	private CandidateRepository candidateRepository;
 	
 	@Autowired
-	private CandidaturaRepository candidaturaRepository;
+	private ApplicationRepository applicationRepository;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -69,15 +69,15 @@ public class CandidateService {
 	public void delete(Integer id) {
 		Candidate candidate = findById(id);
 		
-		List<Candidatura> candidaturas = candidaturaRepository.findAllByCandidateId(candidate.getId());
+		List<Application> applications = applicationRepository.findAllByCandidateId(candidate.getId());
 		
-		if(candidaturas != null && !candidaturas.isEmpty()) {
-			candidaturas.forEach(candidatura -> candidatura.setCandidate(null));
+		if(applications != null && !applications.isEmpty()) {
+			applications.forEach(application -> application.setCandidate(null));
 		}
 		
 		//verificar se quem vai deletar é o candidate
 		
-		candidaturaRepository.saveAll(candidaturas);
+		applicationRepository.saveAll(applications);
 		
 		candidateRepository.delete(candidate);
 	}

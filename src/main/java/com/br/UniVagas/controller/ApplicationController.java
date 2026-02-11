@@ -16,53 +16,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.UniVagas.dto.CandidaturaDTO;
-import com.br.UniVagas.entity.Candidatura;
-import com.br.UniVagas.service.CandidaturaService;
+import com.br.UniVagas.dto.ApplicationDTO;
+import com.br.UniVagas.entity.Application;
+import com.br.UniVagas.service.ApplicationService;
 
 @RestController
-@RequestMapping("/candidatura")
-public class CandidaturaController {
+@RequestMapping("/application")
+public class ApplicationController {
 	
 	@Autowired
-	private CandidaturaService candidaturaService;
+	private ApplicationService applicationService;
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-	public ResponseEntity<?> findAllCandidatura(){
-		List<Candidatura> candidaturas = candidaturaService.findAll();
+	public ResponseEntity<?> findAllApplication(){
+		List<Application> applications = applicationService.findAll();
 		
-		return ResponseEntity.status(HttpStatus.OK).body(candidaturas);
+		return ResponseEntity.status(HttpStatus.OK).body(applications);
 	}
 	
 	@PostMapping
 	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE')")
-	public ResponseEntity<?> createCandidatura(@RequestBody CandidaturaDTO candidaturaDTO, JwtAuthenticationToken token){
-		candidaturaService.create(candidaturaDTO, token);
+	public ResponseEntity<?> createApplication(@RequestBody ApplicationDTO applicationDTO, JwtAuthenticationToken token){
+		applicationService.create(applicationDTO, token);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> updateCandidatura(@PathVariable Integer id, @RequestBody CandidaturaDTO candidaturaDTO, JwtAuthenticationToken token) throws Exception{
-		candidaturaService.update(id, candidaturaDTO, token);
+	public ResponseEntity<?> updateApplication(@PathVariable Integer id, @RequestBody ApplicationDTO applicationDTO, JwtAuthenticationToken token) throws Exception{
+		applicationService.update(id, applicationDTO, token);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> deleteCandidatura(@PathVariable Integer id, JwtAuthenticationToken token) throws Exception{
-		candidaturaService.delete(id, token);
+	public ResponseEntity<?> deleteApplication(@PathVariable Integer id, JwtAuthenticationToken token) throws Exception{
+		applicationService.delete(id, token);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping("/vaga/{id}")
-	public ResponseEntity<?> findCandidaturaByVagaId(@PathVariable Integer vagaId, JwtAuthenticationToken token){
-		List<Candidatura> candidaturas = candidaturaService.findByVagaId(vagaId, token);
+	public ResponseEntity<?> findApplicationByVagaId(@PathVariable Integer vagaId, JwtAuthenticationToken token){
+		List<Application> applications = applicationService.findByVagaId(vagaId, token);
 		
-		return ResponseEntity.status(HttpStatus.FOUND).body(candidaturas);
+		return ResponseEntity.status(HttpStatus.FOUND).body(applications);
 	}
 }
