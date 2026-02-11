@@ -29,23 +29,20 @@ public class JobController {
 	private JobService jobService;
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> createJob(@RequestBody JobDTO jobDTO, JwtAuthenticationToken token){
-		jobService.create(jobDTO, token);
+	public ResponseEntity<?> createJob(@RequestBody JobDTO jobDTO){
+		jobService.create(jobDTO);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> updateJob(@PathVariable Integer id, @RequestBody JobDTO jobDTO,  JwtAuthenticationToken token){
-		jobService.update(jobDTO, id, token);
+	public ResponseEntity<?> updateJob(@PathVariable Integer id, @RequestBody JobDTO jobDTO){
+		jobService.update(jobDTO, id);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping
-	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> findAllJob(){
 		return ResponseEntity.status(HttpStatus.OK).body(jobService.findAll());
 	}
@@ -57,10 +54,9 @@ public class JobController {
 		return ResponseEntity.status(HttpStatus.OK).body(jobs);
 	}
 	
-	@GetMapping("/company")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> findAllJobByCompany(JwtAuthenticationToken token){
-		List<Job> jobs = jobService.findAllByCompany(token);
+	@GetMapping("/company/{id}")
+	public ResponseEntity<?> findAllJobByCompany(@PathVariable Integer id){
+		List<Job> jobs = jobService.findAllByCompany(id);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(jobs);
 	}

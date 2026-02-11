@@ -42,7 +42,6 @@ public class CandidateController {
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> updateCandidate(@PathVariable Integer id, @Valid @RequestBody CandidateDTO candidateDTO){		
 		candidateService.update(id, candidateDTO);
 		
@@ -50,7 +49,6 @@ public class CandidateController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> deleteCandidate(@PathVariable Integer id){		
 		candidateService.delete(id);
 		

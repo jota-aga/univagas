@@ -43,7 +43,6 @@ public class CompanyController {
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> updateCompany(@PathVariable Integer id, @Valid @RequestBody CompanyDTO companyRequest){
 		companyService.update(id, companyRequest);
 		
@@ -51,7 +50,6 @@ public class CompanyController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA') or hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> deleteCompany(@PathVariable Integer id) throws Exception{
 		companyService.delete(id);
 		

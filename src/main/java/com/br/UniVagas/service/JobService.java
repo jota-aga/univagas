@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.br.UniVagas.dto.JobDTO;
 import com.br.UniVagas.entity.Company;
 import com.br.UniVagas.entity.Job;
+import com.br.UniVagas.exception.IdNotFoundException;
 import com.br.UniVagas.mappers.JobMapper;
+import com.br.UniVagas.repository.CompanyRepository;
 import com.br.UniVagas.repository.JobRepository;
 
 @Service
@@ -21,27 +23,25 @@ public class JobService {
 	private JobRepository jobRepository;
 	
 	@Autowired
-	private TokenService tokenService;
+	private CompanyRepository companyRepository;
 	
 	public void save(Job job) {		
 		jobRepository.save(job);
 	}
 	
-	public void create(JobDTO jobDTO, JwtAuthenticationToken token) {
+	public void create(JobDTO jobDTO) {
+		Company company = findCompanyById(jobDTO.companyId());
+		
 		Job job = JobMapper.toEntity(jobDTO);
-		
-		Company company = tokenService.findCompanyByToken(token);
-		
+				
 		job.setCompany(company);
 		
 		save(job);
 	}
 	
-	public void delete(Integer id , JwtAuthenticationToken token) {
+	public void delete(Integer id) {
 		Job job = findById(id);
-		
-		tokenService.verifyCompanyByToken(job.getCompany(), token);
-		
+				
 		jobRepository.delete(job);
 	}
 	
@@ -49,11 +49,9 @@ public class JobService {
 		return jobRepository.findAll();
 	}
 
-	public void update(JobDTO jobDTO, Integer id, JwtAuthenticationToken token) {
+	public void update(JobDTO jobDTO, Integer id) {
 		Job job = findById(id);
-		
-		tokenService.verifyCompanyByToken(job.getCompany(), token);
-		
+				
 		job = JobMapper.update(job, jobDTO);
 		
 		jobRepository.save(job);
@@ -67,8 +65,8 @@ public class JobService {
 		return jobs;
 	}
 	
-	public List<Job> findAllByCompany(JwtAuthenticationToken token) {
-		Company company = tokenService.findCompanyByToken(token);
+	public List<Job> findAllByCompany(Integer companyId) {
+		Company company = findCompanyById(companyId);
 		
 		List<Job> jobs = jobRepository.findAllByCompanyId(company.getId());
 		
@@ -83,5 +81,11 @@ public class JobService {
 		return job;
 	}
 
-	
+	private Company findCompanyById(Integer companyId) {
+		Optional<Company> optionalCompany = companyRepository.findById(companyId);
+		
+		Company company = optionalCompany.orElseThrow(() -> new IdNotFoundException());
+		
+		return company;
+	}
 }
