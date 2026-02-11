@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.br.UniVagas.dto.CandidaturaDTO;
 import com.br.UniVagas.entity.Candidatura;
-import com.br.UniVagas.entity.Estudante;
+import com.br.UniVagas.entity.Candidate;
 import com.br.UniVagas.entity.Vaga;
 import com.br.UniVagas.enums.StatusDaCandidatura;
 import com.br.UniVagas.exception.IdNotFoundException;
@@ -39,10 +39,10 @@ public class CandidaturaService {
 		
 		Vaga vaga = vagaRepository.findById(candidaturaDTO.vagaId()).orElseThrow(() -> new IdNotFoundException());
 		
-		Estudante estudante = tokenService.findEstudanteByToken(token);
+		Candidate candidate = tokenService.findCandidateByToken(token);
 		
 		candidatura.setVaga(vaga);
-		candidatura.setEstudante(estudante);
+		candidatura.setCandidate(candidate);
 		
 		candidatura.setDataAplicacao(LocalDate.now());
 		candidatura.setStatusDaCandidatura(StatusDaCandidatura.ENVIADA);
@@ -53,7 +53,7 @@ public class CandidaturaService {
 	public void update(Integer id, CandidaturaDTO candidaturaDTO, JwtAuthenticationToken token) {
 		Candidatura candidatura = findById(id);
 		
-		tokenService.verifyEmpresaByToken(candidatura.getVaga().getEmpresa(), token);
+		tokenService.verifyCompanyByToken(candidatura.getVaga().getCompany(), token);
 		
 		candidatura = CandidaturaMapper.update(candidatura,candidaturaDTO);
 		
@@ -69,7 +69,7 @@ public class CandidaturaService {
 	public void delete(Integer id, JwtAuthenticationToken token) {
 		Candidatura candidatura = findById(id);
 		
-		tokenService.verifyEmpresaByToken(candidatura.getVaga().getEmpresa(), token);
+		tokenService.verifyCompanyByToken(candidatura.getVaga().getCompany(), token);
 		
 		candidaturaRepository.delete(candidatura);
 	}
@@ -83,7 +83,7 @@ public class CandidaturaService {
 	public List<Candidatura> findByVagaId(Integer vagaId, JwtAuthenticationToken token) {
 		Vaga vaga = vagaRepository.findById(vagaId).orElseThrow(() -> new IdNotFoundException());
 		
-		tokenService.verifyEmpresaByToken(vaga.getEmpresa(), token);
+		tokenService.verifyCompanyByToken(vaga.getCompany(), token);
 		
 		List<Candidatura> candidaturas = new ArrayList<>();
 		

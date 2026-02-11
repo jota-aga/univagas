@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import com.br.UniVagas.dto.VagaDTO;
-import com.br.UniVagas.entity.Empresa;
+import com.br.UniVagas.entity.Company;
 import com.br.UniVagas.entity.Vaga;
 import com.br.UniVagas.mappers.VagaMapper;
 import com.br.UniVagas.repository.VagaRepository;
@@ -30,9 +30,9 @@ public class VagaService {
 	public void create(VagaDTO vagaDTO, JwtAuthenticationToken token) {
 		Vaga vaga = VagaMapper.toEntity(vagaDTO);
 		
-		Empresa empresa = tokenService.findEmpresaByToken(token);
+		Company company = tokenService.findCompanyByToken(token);
 		
-		vaga.setEmpresa(empresa);
+		vaga.setCompany(company);
 		
 		save(vaga);
 	}
@@ -40,7 +40,7 @@ public class VagaService {
 	public void delete(Integer id , JwtAuthenticationToken token) {
 		Vaga vaga = findById(id);
 		
-		tokenService.verifyEmpresaByToken(vaga.getEmpresa(), token);
+		tokenService.verifyCompanyByToken(vaga.getCompany(), token);
 		
 		vagaRepository.delete(vaga);
 	}
@@ -52,7 +52,7 @@ public class VagaService {
 	public void update(VagaDTO vagaDTO, Integer id, JwtAuthenticationToken token) {
 		Vaga vaga = findById(id);
 		
-		tokenService.verifyEmpresaByToken(vaga.getEmpresa(), token);
+		tokenService.verifyCompanyByToken(vaga.getCompany(), token);
 		
 		vaga = VagaMapper.update(vaga, vagaDTO);
 		
@@ -67,10 +67,10 @@ public class VagaService {
 		return vagas;
 	}
 	
-	public List<Vaga> findAllByEmpresa(JwtAuthenticationToken token) {
-		Empresa empresa = tokenService.findEmpresaByToken(token);
+	public List<Vaga> findAllByCompany(JwtAuthenticationToken token) {
+		Company company = tokenService.findCompanyByToken(token);
 		
-		List<Vaga> vagas = vagaRepository.findAllByEmpresaId(empresa.getId());
+		List<Vaga> vagas = vagaRepository.findAllByCompanyId(company.getId());
 		
 		return vagas;
 	}

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.br.UniVagas.entity.Candidatura;
 
 public interface CandidaturaRepository extends JpaRepository<Candidatura, Integer>{
-	List<Candidatura> findAllByEstudanteId(Integer estudanteId);
+	List<Candidatura> findAllByCandidateId(Integer candidateId);
 		
 	List<Candidatura> findAllByVagaId(Integer vaga_Id);
 }

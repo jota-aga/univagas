@@ -37,8 +37,8 @@ public class Candidatura {
 	private StatusDaCandidatura statusDaCandidatura;
 	
 	@ManyToOne
-	@NotNull(message = "Estudante is required.")
-	private Estudante estudante;
+	@NotNull(message = "Candidate is required.")
+	private Candidate candidate;
 	
 	@ManyToOne
 	@NotNull(message = "Vaga is required.")

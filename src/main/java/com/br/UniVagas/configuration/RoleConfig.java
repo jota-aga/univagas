@@ -26,10 +26,10 @@ public class RoleConfig implements CommandLineRunner{
 		optionalRole.ifPresentOrElse(u -> System.out.println("As Roles já estão no banco!"),
 				() ->{
 					Role admin = new Role(Role.Value.ADMIN.name());
-					Role empresa = new Role(Role.Value.EMPRESA.name());
-					Role estudante = new Role(Role.Value.ESTUDANTE.name());
+					Role company = new Role(Role.Value.EMPRESA.name());
+					Role candidate = new Role(Role.Value.ESTUDANTE.name());
 					
-					roleRepository.saveAll(List.of(admin, empresa, estudante));
+					roleRepository.saveAll(List.of(admin, company, candidate));
 				});
 	}
 

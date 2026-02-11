@@ -67,7 +67,7 @@ public class Vaga {
 	private StatusDaVaga status;
 	
 	@ManyToOne
-	private Empresa empresa;
+	private Company company;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Candidatura> candidaturas;

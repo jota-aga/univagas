@@ -41,8 +41,8 @@ public class SecurityConfiguration {
 		return httpSecurity.
 				authorizeHttpRequests(authorize ->authorize
 															.requestMatchers(HttpMethod.GET, "/auth/sign-in").permitAll()
-															.requestMatchers(HttpMethod.POST, "/empresa").permitAll()
-															.requestMatchers(HttpMethod.POST, "/estudante").permitAll()
+															.requestMatchers(HttpMethod.POST, "/company").permitAll()
+															.requestMatchers(HttpMethod.POST, "/candidate").permitAll()
 															.anyRequest().permitAll()
 															)
 				.csrf(csrf -> csrf.disable())

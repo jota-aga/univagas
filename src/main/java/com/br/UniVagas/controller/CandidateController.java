@@ -16,51 +16,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.UniVagas.dto.EstudanteDTO;
-import com.br.UniVagas.entity.Estudante;
-import com.br.UniVagas.service.EstudanteService;
+import com.br.UniVagas.dto.CandidateDTO;
+import com.br.UniVagas.entity.Candidate;
+import com.br.UniVagas.service.CandidateService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/estudante")
-public class EstudanteController {
+@RequestMapping("/candidate")
+public class CandidateController {
 	
 	@Autowired
-	private EstudanteService estudanteService;
+	private CandidateService candidateService;
 	
 	@GetMapping
-	public List<Estudante> findAllEstudante(){
-		return estudanteService.findAll();
+	public List<Candidate> findAllCandidate(){
+		return candidateService.findAll();
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createEstudante(@Valid @RequestBody EstudanteDTO estudanteDTO){		
-		estudanteService.create(estudanteDTO);
+	public ResponseEntity<?> createCandidate(@Valid @RequestBody CandidateDTO candidateDTO){		
+		candidateService.create(candidateDTO);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
-	public ResponseEntity<?> updateEstudante(@PathVariable Integer id, @Valid @RequestBody EstudanteDTO estudanteDTO){		
-		estudanteService.update(id, estudanteDTO);
+	public ResponseEntity<?> updateCandidate(@PathVariable Integer id, @Valid @RequestBody CandidateDTO candidateDTO){		
+		candidateService.update(id, candidateDTO);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE') or hasAuthority('SCOPE_ADMIN')")
-	public ResponseEntity<?> deleteEstudante(@PathVariable Integer id){		
-		estudanteService.delete(id);
+	public ResponseEntity<?> deleteCandidate(@PathVariable Integer id){		
+		candidateService.delete(id);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping("/search-descricao")
-	public ResponseEntity<?> findEstudanteByDescricao(@RequestParam String descricao){		
-		List<Estudante> estudantes = estudanteService.findByDescricao(descricao);
+	public ResponseEntity<?> findCandidateByDescricao(@RequestParam String descricao){		
+		List<Candidate> candidates = candidateService.findByDescricao(descricao);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(estudantes);
+		return ResponseEntity.status(HttpStatus.OK).body(candidates);
 	}
 }

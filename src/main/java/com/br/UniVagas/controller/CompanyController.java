@@ -16,52 +16,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.UniVagas.dto.EmpresaDTO;
-import com.br.UniVagas.entity.Empresa;
-import com.br.UniVagas.service.EmpresaService;
+import com.br.UniVagas.dto.CompanyDTO;
+import com.br.UniVagas.entity.Company;
+import com.br.UniVagas.service.CompanyService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/empresa")
-public class EmpresaController {
+@RequestMapping("/company")
+public class CompanyController {
 	
 	@Autowired
-	EmpresaService empresaService;
+	CompanyService companyService;
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-	public List<Empresa> findAllEmpresas(){
-		return empresaService.findAll();
+	public List<Company> findAllCompanys(){
+		return companyService.findAll();
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createEmpresa(@Valid @RequestBody EmpresaDTO empresaDTO) {		
-		empresaService.create(empresaDTO);
+	public ResponseEntity<?> createCompany(@Valid @RequestBody CompanyDTO companyDTO) {		
+		companyService.create(companyDTO);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA') or hasAuthority('SCOPE_ADMIN')")
-	public ResponseEntity<?> updateEmpresa(@PathVariable Integer id, @Valid @RequestBody EmpresaDTO empresaRequest){
-		empresaService.update(id, empresaRequest);
+	public ResponseEntity<?> updateCompany(@PathVariable Integer id, @Valid @RequestBody CompanyDTO companyRequest){
+		companyService.update(id, companyRequest);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(null); 
 	}
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA') or hasAuthority('SCOPE_ADMIN')")
-	public ResponseEntity<?> deleteEmpresa(@PathVariable Integer id) throws Exception{
-		empresaService.delete(id);
+	public ResponseEntity<?> deleteCompany(@PathVariable Integer id) throws Exception{
+		companyService.delete(id);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(null); 
 	}
 	
 	@GetMapping("/search-razaosocial")
-	public ResponseEntity<?> findAllByRazaoSocial(@RequestParam String razaoSocial){
-		List<Empresa> empresas = empresaService.findAllByRazaoSocial(razaoSocial);
+	public ResponseEntity<?> findAllByRazaoSocial(@RequestParam String legalName){
+		List<Company> companys = companyService.findAllByLegalName(legalName);
 		
-		return ResponseEntity.status(HttpStatus.FOUND).body(empresas);
+		return ResponseEntity.status(HttpStatus.FOUND).body(companys);
 	}
 }

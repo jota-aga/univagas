@@ -57,10 +57,10 @@ public class VagaController {
 		return ResponseEntity.status(HttpStatus.OK).body(vagas);
 	}
 	
-	@GetMapping("/empresa")
+	@GetMapping("/company")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> findAllVagaByEmpresa(JwtAuthenticationToken token){
-		List<Vaga> vagas = vagaService.findAllByEmpresa(token);
+	public ResponseEntity<?> findAllVagaByCompany(JwtAuthenticationToken token){
+		List<Vaga> vagas = vagaService.findAllByCompany(token);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(vagas);
 	}

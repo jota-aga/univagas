@@ -1,18 +1,17 @@
 package com.br.UniVagas.entity;
 
-import java.time.LocalDate;
+import java.util.List;
 
-import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,27 +22,30 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Estudante {
+public class Company{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotBlank(message = "Nome is required.")
-	private String nome;
+	@NotEmpty(message = "Legal name is required.")
+	private String legalName;
 	
-	@Past(message = "Data de Nascimento must to be in the past")
-	@NotNull(message = "Data de Nascimento is required.")
-	private LocalDate dataNascimento;
+	@CNPJ(message = "CNPJ invalid.")
+	@NotEmpty(message = "CNPJ is required.")
+	private String cnpj;
 	
-	private String telefone;
+	private String description;
 	
-	private String descricao;
+	private String location;
 	
-	@CPF(message = "CPF invalid.")
-	private String cpf;
+	private String sector;
+	
+	private String website;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Vaga> vagas;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
-
 }

@@ -12,12 +12,12 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.br.UniVagas.entity.Empresa;
-import com.br.UniVagas.entity.Estudante;
+import com.br.UniVagas.entity.Company;
+import com.br.UniVagas.entity.Candidate;
 import com.br.UniVagas.entity.Usuario;
 import com.br.UniVagas.exception.IdNotFoundException;
-import com.br.UniVagas.repository.EmpresaRepository;
-import com.br.UniVagas.repository.EstudanteRepository;
+import com.br.UniVagas.repository.CompanyRepository;
+import com.br.UniVagas.repository.CandidateRepository;
 
 @Service
 public class TokenService {
@@ -26,10 +26,10 @@ public class TokenService {
 	private JwtEncoder jwtEncoder;
 	
 	@Autowired
-	private EstudanteRepository estudanteRepository;
+	private CandidateRepository candidateRepository;
 	
 	@Autowired
-	private EmpresaRepository empresaRepository;
+	private CompanyRepository companyRepository;
 	
 	public String generateToken(Usuario usuario) {
 		var scope = usuario.getRole().getNome();
@@ -51,38 +51,38 @@ public class TokenService {
 		return LocalDateTime.now().plusHours(2L).toInstant(ZoneOffset.of("-03:00"));
 	}
 	
-	public Estudante findEstudanteByToken(JwtAuthenticationToken token) {
+	public Candidate findCandidateByToken(JwtAuthenticationToken token) {
 		Integer usuarioId = Integer.valueOf(token.getToken().getSubject());
 		
-		Optional<Estudante> optionalEstudante = estudanteRepository.findByUsuarioId(usuarioId);
+		Optional<Candidate> optionalCandidate = candidateRepository.findByUsuarioId(usuarioId);
 		
-		Estudante estudante = optionalEstudante.orElseThrow(() -> new IdNotFoundException());
+		Candidate candidate = optionalCandidate.orElseThrow(() -> new IdNotFoundException());
 		
-		return estudante;
+		return candidate;
 	}
 	
-	public Empresa findEmpresaByToken(JwtAuthenticationToken token) {
-		Integer empresaId = Integer.valueOf(token.getToken().getSubject());
+	public Company findCompanyByToken(JwtAuthenticationToken token) {
+		Integer companyId = Integer.valueOf(token.getToken().getSubject());
 		
-		Optional<Empresa> optionalEmpresa = empresaRepository.findByUsuarioId(empresaId);
+		Optional<Company> optionalCompany = companyRepository.findByUsuarioId(companyId);
 		
-		Empresa empresa = optionalEmpresa.orElseThrow(() -> new IdNotFoundException());
+		Company company = optionalCompany.orElseThrow(() -> new IdNotFoundException());
 		
-		return empresa;
+		return company;
 	}
 	
-	public void verifyEstudanteByToken(Estudante estudante, JwtAuthenticationToken token) {
-		Estudante estudanteToken = findEstudanteByToken(token);
+	public void verifyCandidateByToken(Candidate candidate, JwtAuthenticationToken token) {
+		Candidate candidateToken = findCandidateByToken(token);
 		
-		if(!estudanteToken.equals(estudante)) {
+		if(!candidateToken.equals(candidate)) {
 			throw new RuntimeException("This Candidatura isnt yours!");
 		}
 	}
 	
-	public void verifyEmpresaByToken(Empresa empresa, JwtAuthenticationToken token) {
-		Empresa empresaToken = findEmpresaByToken(token);
+	public void verifyCompanyByToken(Company company, JwtAuthenticationToken token) {
+		Company companyToken = findCompanyByToken(token);
 		
-		if(!empresaToken.equals(empresa)) {
+		if(!companyToken.equals(company)) {
 			throw new RuntimeException("This Candidatura isnt yours!");
 		}
 	}

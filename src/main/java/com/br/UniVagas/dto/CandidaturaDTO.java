@@ -4,4 +4,4 @@ import java.time.LocalDate;
 
 import com.br.UniVagas.enums.StatusDaCandidatura;
 
-public record CandidaturaDTO(LocalDate dataAplicacao, StatusDaCandidatura statusDaCandidatura, Integer estudanteId, Integer vagaId) {}
+public record CandidaturaDTO(LocalDate dataAplicacao, StatusDaCandidatura statusDaCandidatura, Integer candidateId, Integer vagaId) {}

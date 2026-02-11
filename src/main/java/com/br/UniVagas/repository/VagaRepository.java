@@ -16,5 +16,5 @@ public interface VagaRepository extends JpaRepository<Vaga, Integer>{
 		""")
 	List<Vaga> findAllByTituloOrDescricao(String termo);
 	
-	List<Vaga> findAllByEmpresaId(Integer empresaId);
+	List<Vaga> findAllByCompanyId(Integer companyId);
 }
