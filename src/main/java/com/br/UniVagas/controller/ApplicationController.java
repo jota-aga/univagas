@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +26,6 @@ public class ApplicationController {
 	private ApplicationService applicationService;
 	
 	@GetMapping
-	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
 	public ResponseEntity<?> findAllApplication(){
 		List<Application> applications = applicationService.findAll();
 		
@@ -36,32 +33,29 @@ public class ApplicationController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('SCOPE_ESTUDANTE')")
-	public ResponseEntity<?> createApplication(@RequestBody ApplicationDTO applicationDTO, JwtAuthenticationToken token){
-		applicationService.create(applicationDTO, token);
+	public ResponseEntity<?> createApplication(@RequestBody ApplicationDTO applicationDTO){
+		applicationService.create(applicationDTO);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> updateApplication(@PathVariable Integer id, @RequestBody ApplicationDTO applicationDTO, JwtAuthenticationToken token) throws Exception{
-		applicationService.update(id, applicationDTO, token);
+	public ResponseEntity<?> updateApplication(@PathVariable Integer id, @RequestBody ApplicationDTO applicationDTO) throws Exception{
+		applicationService.update(id, applicationDTO);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> deleteApplication(@PathVariable Integer id, JwtAuthenticationToken token) throws Exception{
-		applicationService.delete(id, token);
+	public ResponseEntity<?> deleteApplication(@PathVariable Integer id) throws Exception{
+		applicationService.delete(id);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping("/job/{id}")
-	public ResponseEntity<?> findApplicationByJobId(@PathVariable Integer jobId, JwtAuthenticationToken token){
-		List<Application> applications = applicationService.findByJobId(jobId, token);
+	public ResponseEntity<?> findApplicationByJobId(@PathVariable Integer jobId){
+		List<Application> applications = applicationService.findByJobId(jobId);
 		
 		return ResponseEntity.status(HttpStatus.FOUND).body(applications);
 	}
