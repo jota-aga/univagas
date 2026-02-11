@@ -1,13 +1,13 @@
 package com.br.UniVagas.enums;
 
-public enum StatusDaVaga {
+public enum JobStatus {
 	ABERTA("Aberta"),
 	FECHADA("Fechada"),
 	CANCELADA("Cancelada");
 	
 	private String status;
 
-	StatusDaVaga(String status) {
+	JobStatus(String status) {
 		this.status = status;
 	}
 

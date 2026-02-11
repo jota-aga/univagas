@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.br.UniVagas.entity.Vaga;
+import com.br.UniVagas.entity.Job;
 
-public interface VagaRepository extends JpaRepository<Vaga, Integer>{
+public interface JobRepository extends JpaRepository<Job, Integer>{
 	@Query("""
 		    SELECT v
-		    FROM Vaga v
+		    FROM Job v
 		    WHERE LOWER(v.titulo) LIKE LOWER(CONCAT('%', :termo, '%'))
 		       OR LOWER(v.descricao) LIKE LOWER(CONCAT('%', :termo, '%'))
 		""")
-	List<Vaga> findAllByTituloOrDescricao(String termo);
+	List<Job> findAllByTituloOrDescricao(String termo);
 	
-	List<Vaga> findAllByCompanyId(Integer companyId);
+	List<Job> findAllByCompanyId(Integer companyId);
 }

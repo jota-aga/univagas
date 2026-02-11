@@ -41,6 +41,6 @@ public class Application {
 	private Candidate candidate;
 	
 	@ManyToOne
-	@NotNull(message = "Vaga is required.")
-	private Vaga vaga;
+	@NotNull(message = "Job is required.")
+	private Job job;
 }

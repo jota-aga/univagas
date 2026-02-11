@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.br.UniVagas.enums.StatusDaVaga;
-import com.br.UniVagas.enums.TipoDeVaga;
+import com.br.UniVagas.enums.JobLevel;
+import com.br.UniVagas.enums.JobStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vaga {
+public class Job {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +47,7 @@ public class Vaga {
 	private String descricao;
 	
 	@Enumerated(value = EnumType.STRING)
-	private TipoDeVaga tipoDeVaga;
+	private JobLevel tipoDeJob;
 	
 	private LocalDate dataPublicacao;
 	
@@ -64,7 +64,7 @@ public class Vaga {
 	private String localizacao;
 	
 	@Enumerated(value = EnumType.STRING)
-	private StatusDaVaga status;
+	private JobStatus status;
 	
 	@ManyToOne
 	private Company company;
@@ -73,6 +73,6 @@ public class Vaga {
 	private List<Application> applications;
 	
 	@ManyToMany
-	@JoinTable(name = "requer", joinColumns = @JoinColumn (name="id_vaga"), inverseJoinColumns = @JoinColumn(name="id_competence"))
+	@JoinTable(name = "requer", joinColumns = @JoinColumn (name="id_job"), inverseJoinColumns = @JoinColumn(name="id_competence"))
 	private List<Competence> competenceRequeridas;
 }

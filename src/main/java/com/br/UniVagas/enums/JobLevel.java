@@ -1,13 +1,13 @@
 package com.br.UniVagas.enums;
 
-public enum TipoDeVaga {
+public enum JobLevel {
 	TRAINEE("Trainee"),
 	ESTAGIO("Estágio"),
 	VOLUNTARIO("Voluntário");
 	
 	private String tipo;
 	
-	TipoDeVaga(String tipo){
+	JobLevel(String tipo){
 		this.tipo = tipo;
 	}
 

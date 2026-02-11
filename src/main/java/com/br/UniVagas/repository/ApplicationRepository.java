@@ -9,5 +9,5 @@ import com.br.UniVagas.entity.Application;
 public interface ApplicationRepository extends JpaRepository<Application, Integer>{
 	List<Application> findAllByCandidateId(Integer candidateId);
 		
-	List<Application> findAllByVagaId(Integer vaga_Id);
+	List<Application> findAllByJobId(Integer job_Id);
 }

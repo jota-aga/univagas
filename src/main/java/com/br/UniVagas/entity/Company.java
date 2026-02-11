@@ -44,7 +44,7 @@ public class Company{
 	private String website;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Vaga> vagas;
+	private List<Job> jobs;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;

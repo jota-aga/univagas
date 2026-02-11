@@ -17,51 +17,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.UniVagas.dto.VagaDTO;
-import com.br.UniVagas.entity.Vaga;
-import com.br.UniVagas.service.VagaService;
+import com.br.UniVagas.dto.JobDTO;
+import com.br.UniVagas.entity.Job;
+import com.br.UniVagas.service.JobService;
 
 @RestController
-@RequestMapping("/vaga")
-public class VagaController {
+@RequestMapping("/job")
+public class JobController {
 	
 	@Autowired
-	private VagaService vagaService;
+	private JobService jobService;
 	
 	@PostMapping
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> createVaga(@RequestBody VagaDTO vagaDTO, JwtAuthenticationToken token){
-		vagaService.create(vagaDTO, token);
+	public ResponseEntity<?> createJob(@RequestBody JobDTO jobDTO, JwtAuthenticationToken token){
+		jobService.create(jobDTO, token);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> updateVaga(@PathVariable Integer id, @RequestBody VagaDTO vagaDTO,  JwtAuthenticationToken token){
-		vagaService.update(vagaDTO, id, token);
+	public ResponseEntity<?> updateJob(@PathVariable Integer id, @RequestBody JobDTO jobDTO,  JwtAuthenticationToken token){
+		jobService.update(jobDTO, id, token);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-	public ResponseEntity<?> findAllVaga(){
-		return ResponseEntity.status(HttpStatus.OK).body(vagaService.findAll());
+	public ResponseEntity<?> findAllJob(){
+		return ResponseEntity.status(HttpStatus.OK).body(jobService.findAll());
 	}
 	
 	@GetMapping("/search")
-	public ResponseEntity<?> findVagaByDescricaoOrTitulo(@RequestParam String termoDePesquisa){
-		List<Vaga> vagas = vagaService.findByTermoDePesquisa(termoDePesquisa);
+	public ResponseEntity<?> findJobByDescricaoOrTitulo(@RequestParam String termoDePesquisa){
+		List<Job> jobs = jobService.findByTermoDePesquisa(termoDePesquisa);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(vagas);
+		return ResponseEntity.status(HttpStatus.OK).body(jobs);
 	}
 	
 	@GetMapping("/company")
 	@PreAuthorize("hasAuthority('SCOPE_EMPRESA')")
-	public ResponseEntity<?> findAllVagaByCompany(JwtAuthenticationToken token){
-		List<Vaga> vagas = vagaService.findAllByCompany(token);
+	public ResponseEntity<?> findAllJobByCompany(JwtAuthenticationToken token){
+		List<Job> jobs = jobService.findAllByCompany(token);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(vagas);
+		return ResponseEntity.status(HttpStatus.OK).body(jobs);
 	}
 }

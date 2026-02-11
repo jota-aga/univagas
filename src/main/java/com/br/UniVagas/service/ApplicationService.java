@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import com.br.UniVagas.dto.ApplicationDTO;
 import com.br.UniVagas.entity.Application;
 import com.br.UniVagas.entity.Candidate;
-import com.br.UniVagas.entity.Vaga;
+import com.br.UniVagas.entity.Job;
 import com.br.UniVagas.enums.ApplicationStatus;
 import com.br.UniVagas.exception.IdNotFoundException;
 import com.br.UniVagas.mappers.ApplicationMapper;
 import com.br.UniVagas.repository.ApplicationRepository;
-import com.br.UniVagas.repository.VagaRepository;
+import com.br.UniVagas.repository.JobRepository;
 
 @Service
 public class ApplicationService {
@@ -25,7 +25,7 @@ public class ApplicationService {
 	private ApplicationRepository applicationRepository;
 	
 	@Autowired
-	private VagaRepository vagaRepository;
+	private JobRepository jobRepository;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -37,11 +37,11 @@ public class ApplicationService {
 	public void create(ApplicationDTO applicationDTO, JwtAuthenticationToken token) {
 		Application application = new Application();
 		
-		Vaga vaga = vagaRepository.findById(applicationDTO.vagaId()).orElseThrow(() -> new IdNotFoundException());
+		Job job = jobRepository.findById(applicationDTO.jobId()).orElseThrow(() -> new IdNotFoundException());
 		
 		Candidate candidate = tokenService.findCandidateByToken(token);
 		
-		application.setVaga(vaga);
+		application.setJob(job);
 		application.setCandidate(candidate);
 		
 		application.setDataAplicacao(LocalDate.now());
@@ -53,7 +53,7 @@ public class ApplicationService {
 	public void update(Integer id, ApplicationDTO applicationDTO, JwtAuthenticationToken token) {
 		Application application = findById(id);
 		
-		tokenService.verifyCompanyByToken(application.getVaga().getCompany(), token);
+		tokenService.verifyCompanyByToken(application.getJob().getCompany(), token);
 		
 		application = ApplicationMapper.update(application,applicationDTO);
 		
@@ -69,7 +69,7 @@ public class ApplicationService {
 	public void delete(Integer id, JwtAuthenticationToken token) {
 		Application application = findById(id);
 		
-		tokenService.verifyCompanyByToken(application.getVaga().getCompany(), token);
+		tokenService.verifyCompanyByToken(application.getJob().getCompany(), token);
 		
 		applicationRepository.delete(application);
 	}
@@ -80,14 +80,14 @@ public class ApplicationService {
 		return applications;
 	}
 	
-	public List<Application> findByVagaId(Integer vagaId, JwtAuthenticationToken token) {
-		Vaga vaga = vagaRepository.findById(vagaId).orElseThrow(() -> new IdNotFoundException());
+	public List<Application> findByJobId(Integer jobId, JwtAuthenticationToken token) {
+		Job job = jobRepository.findById(jobId).orElseThrow(() -> new IdNotFoundException());
 		
-		tokenService.verifyCompanyByToken(vaga.getCompany(), token);
+		tokenService.verifyCompanyByToken(job.getCompany(), token);
 		
 		List<Application> applications = new ArrayList<>();
 		
-		applications = applicationRepository.findAllByVagaId(vagaId);
+		applications = applicationRepository.findAllByJobId(jobId);
 		
 		return applications;
 	}

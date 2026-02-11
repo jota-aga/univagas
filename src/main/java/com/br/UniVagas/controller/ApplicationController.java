@@ -59,9 +59,9 @@ public class ApplicationController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
-	@GetMapping("/vaga/{id}")
-	public ResponseEntity<?> findApplicationByVagaId(@PathVariable Integer vagaId, JwtAuthenticationToken token){
-		List<Application> applications = applicationService.findByVagaId(vagaId, token);
+	@GetMapping("/job/{id}")
+	public ResponseEntity<?> findApplicationByJobId(@PathVariable Integer jobId, JwtAuthenticationToken token){
+		List<Application> applications = applicationService.findByJobId(jobId, token);
 		
 		return ResponseEntity.status(HttpStatus.FOUND).body(applications);
 	}
